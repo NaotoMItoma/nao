@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>基本的なカレンダー</title>
+  <style>
+    /* CSSスタイルはこちらで設定 */
+  </style>
+</head>
+<body>
+  <div id="calendar"></div>
+  <script>
+   const calendarEl = document.getElementById('calendar');
+const date = new Date();
+const currentYear = date.getFullYear();
+const currentMonth = date.getMonth();
+const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+// カレンダーのHTML構造を生成
+let calendarHtml = '<table><thead><tr>';
+for (let i = 0; i < 7; i++) {
+  calendarHtml += `<th>${['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</th>`;
+}
+calendarHtml += '</tr></thead><tbody><tr>';
+
+for (let i = 1; i <= daysInMonth; i++) {
+  const dayOfWeek = new Date(currentYear, currentMonth, i).getDay();
+  if (i === 1) {
+    calendarHtml += '<tr>';
+    for (let j = 0; j < dayOfWeek; j++) {
+      calendarHtml += '<td></td>';
+    }
+  }
+  calendarHtml += `<td>${i}</td>`;
+  if (dayOfWeek === 6) {
+    calendarHtml += '</tr>';
+    if (i < daysInMonth) {
+      calendarHtml += '<tr>';
+    }
+  } else if (i === daysInMonth) {
+    for (let j = dayOfWeek + 1; j <= 6; j++) {
+      calendarHtml += '<td></td>';
+    }
+    calendarHtml += '</tr>';
+  }
+}
+calendarHtml += '</tbody></table>';
+calendarEl.innerHTML = calendarHtml;
+
+const prevMonthBtn = document.getElementById('prevMonth');
+const nextMonthBtn = document.getElementById('nextMonth');
+let currentDisplayedMonth = currentMonth;
+
+const events = [
+  {
+    date: new Date(currentYear, currentMonth, 5),
+    title: 'イベント1',
+  },
+  {
+    date: new Date(currentYear, currentMonth, 15),
+    title: 'イベント2',
+  },
+];
+
+
+function generateCalendar(year, month) {
+  // カレンダー生成処理（サンプルコード1の内容を関数にまとめる）
+}
+
+  // イベント情報をカレンダーに追加
+  events.forEach(event => {
+    if (event.date.getFullYear() === year && event.date.getMonth() === month) {
+      const dayCell = calendarEl.querySelector(`td[data-date="${event.date.getDate()}"]`);
+      dayCell.innerHTML += `<div>${event.title}</div>`;
+    }
+  });
+}
+
+
+prevMonthBtn.addEventListener('click', () => {
+  currentDisplayedMonth--;
+  if (currentDisplayedMonth < 0) {
+    currentDisplayedMonth = 11;
+    currentYear--;
+  }
+  generateCalendar(currentYear, currentDisplayedMonth);
+});
+
+nextMonthBtn.addEventListener('click', () => {
+  currentDisplayedMonth++;
+  if (currentDisplayedMonth > 11) {
+    currentDisplayedMonth = 0;
+    currentYear++;
+  }
+  generateCalendar(currentYear, currentDisplayedMonth);
+});
+const weekCalendarEl = document.getElementById('weekCalendar');
+const weekDaysEl = document.getElementById('weekDays');
+
+function generateWeekCalendar(date) {
+
+  for (let i = 0; i < 42; i++) {
+    // 既存のコード
+
+    if (day.getDay() === 0 || day.getDay() === 6) {
+      dayCell.classList.add('weekend');
+    }
+
+  weekDaysEl.innerHTML = '';
+  const startOfWeek = new Date(date);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(startOfWeek);
+    day.setDate(day.getDate() + i);
+    const dayCell = document.createElement('td');
+    dayCell.textContent = day.getDate();
+    weekDaysEl.appendChild(dayCell);
+  }
+}
+
+generateWeekCalendar(new Date());
+
+const yearCalendarEl = document.getElementById('yearCalendar');
+
+function generateYearCalendar(year) {
+  yearCalendarEl.innerHTML = '';
+
+  for (let i = 0; i < 12; i++) {
+    const monthCalendar = document.createElement('div');
+    const monthDate = new Date(year, i, 1);
+    generateCalendar(monthDate, monthCalendar);
+    yearCalendarEl.appendChild(monthCalendar);
+  }
+}
+
+generateYearCalendar(new Date().getFullYear());
+
+const events = document.querySelectorAll('.event');
+
+events.forEach((event) => {
+  event.addEventListener('dragstart', (e) => {
+    e.dataTransfer.setData('text/plain', e.target.textContent);
+  });
+});
+
+function generateCalendar(date, targetEl) {
+  // 既存のコード
+
+  for (let i = 0; i < 42; i++) {
+    // 既存のコード
+
+    dayCell.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+
+    dayCell.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const eventData = e.dataTransfer.getData('text/plain');
+      const eventDiv = document.createElement('div');
+      eventDiv.textContent = eventData;
+      dayCell.appendChild(eventDiv);
+    });
+    const todoInput = document.getElementById('todoInput');
+const todoList = document.getElementById('todoList');
+
+todoInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target.value.trim() !== '') {
+    const listItem = document.createElement('li');
+    listItem.textContent = e.target.value;
+    todoList.appendChild(listItem);
+    e.target.value = '';
+  }
+});
+
+  </script>
+  <style>
+    #calendar {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #calendar th,
+    #calendar td {
+      width: 14.2857%;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+  </style>
+  <style>
+    #calendar {
+      font-family: 'Arial', sans-serif;
+      border-collapse: collapse;
+    }
+    #calendar th,
+    #calendar td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    #calendar th {
+      background-color: #f3f3f3;
+      color: #333;
+    }
+    #calendar .weekend {
+      background-color: #e6e6e6;
+    }
+  </style>
+  <table id="weekCalendar">
+    <thead>
+      <tr>
+        <th>日</th>
+        <th>月</th>
+        <th>火</th>
+        <th>水</th>
+        <th>木</th>
+        <th>金</th>
+        <th>土</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="weekDays"></tr>
+    </tbody>
+  </table>
+  <div id="yearCalendar"></div>
+  <div id="events">
+  <div class="event" draggable="true">イベント1</div>
+  <div class="event" draggable="true">イベント2</div>
+  <div class="event" draggable="true">イベント3</div>
+</div>
+<input type="text" id="todoInput" placeholder="ToDoを追加">
+<ul id="todoList"></ul>
+  <button id="prevMonth">前の月</button>
+  <button id="nextMonth">次の月</button>
+
+</body>
+</html>
